@@ -8,7 +8,7 @@ async function criarEPopularTabelaTarefas() {
     });
 
     await db.run(
-        `CREATE TABLE IF NOT EXISTS usuarios (
+        `CREATE TABLE IF NOT EXISTS tarefas (
             id INTEGER PRIMARY KEY,
             nome TEXT,
             custo REAL,
@@ -25,3 +25,5 @@ criarEPopularTabelaTarefas().then(() => {
 }).catch(error => {
     console.error("Erro ao criar a tabela Tarefas:", error);
 });
+
+export default criarEPopularTabelaTarefas;
