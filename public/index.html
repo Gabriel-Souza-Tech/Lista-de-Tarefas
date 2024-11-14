@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>ToDo-List</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto mt-5 bg-light">
+                <h1 class="text-center">Lista de Tarefas</h1>
+                <ul class="list-group" id="lista-tarefas">
+                    <!-- Lista de tarefas será adicionada aqui dinamicamente -->
+                </ul>
+                
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#criarTarefa">
+                    Nova Tarefa
+                </button>
+                
+                <!-- Modal para editar tarefa -->
+                <div class="modal fade" id="editarTarefa" tabindex="-1" aria-labelledby="editarTarefaLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editarTarefaLabel">Editar Tarefa</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="form-editar-tarefa">
+                                    <div class="mb-3">
+                                        <label for="edit-nome-tarefa" class="form-label">Nome da Tarefa</label>
+                                        <input type="text" class="form-control" id="edit-nome-tarefa">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="edit-custo-tarefa" class="form-label">Custo</label>
+                                        <input type="number" class="form-control" id="edit-custo-tarefa">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="edit-data-limite" class="form-label">Data Limite</label>
+                                        <input type="date" class="form-control" id="edit-data-limite">
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary" id="salvar-edicao">Salvar Alterações</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal para criar tarefa -->
+                <div class="modal fade" id="criarTarefa" tabindex="-1" aria-labelledby="criarTarefaLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="criarTarefaLabel">Insira os dados da Nova Tarefa</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="form-tarefa">
+                                    <div class="mb-3">
+                                      <label for="nome-tarefa" class="form-label">Nome da Tarefa</label>
+                                      <input type="text" class="form-control" id="nome-tarefa">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="data-limite" class="form-label">Custo</label>
+                                        <input type="number" class="form-control" id="custo-tarefa">
+                                      </div>
+                                    <div class="mb-3">
+                                      <label for="data-limite" class="form-label">Data Limite</label>
+                                      <input type="date" class="form-control" id="data-limite">
+                                    </div>
+                                  </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="button" class="btn btn-primary">Criar Tarefa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Modal para excluir tarefa -->
+                <div class="modal fade" id="excluirTarefaModal" tabindex="-1" aria-labelledby="excluirTarefaLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="excluirTarefaLabel">Confirmar exclusão</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Tem certeza que deseja excluir esta tarefa?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Não</button>
+                                <button type="button" class="btn btn-danger" id="confirmarExclusao">Sim</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>                  
+
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="client.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+</body>
+</html>
