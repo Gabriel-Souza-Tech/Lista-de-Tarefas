@@ -107,10 +107,9 @@ export async function editarTarefas(id, nome, custo, data_limite) {
             return false;
         }
 
-        // Atualiza a tarefa incluindo o valor de `ordem_apresentacao`
         const tarefa = await db.run(
-            'UPDATE tarefas SET nome = ?, custo = ?, data_limite = ?, ordem_apresentacao = ? WHERE id = ?', 
-            [nome, custo, data_limite, ordemApresentacao, id]
+            'UPDATE tarefas SET nome = ?, custo = ?, data_limite = ? WHERE id = ?', 
+            [nome, custo, data_limite, id]
         );
 
         if (tarefa.changes) {
@@ -158,3 +157,25 @@ export async function excluirTarefas(id) {
     }
 }
 
+export async function atualizarOrdemTarefas(id, novaOrdem) {
+    const db = await open({
+        filename: './Tarefas.db',
+        driver: sqlite3.Database,
+    });
+
+    try {
+        // Atualiza a ordem da tarefa específica
+        await db.run('UPDATE tarefas SET ordem_apresentacao = ? WHERE id = ?', [novaOrdem, id]);
+
+        // Atualiza a ordem das demais tarefas para manter a sequência
+        await db.run('UPDATE tarefas SET ordem_apresentacao = ordem_apresentacao - 1 WHERE ordem_apresentacao > ?', [novaOrdem]);
+        await db.run('UPDATE tarefas SET ordem_apresentacao = ordem_apresentacao + 1 WHERE ordem_apresentacao >= ? AND ordem_apresentacao <= ?', [novaOrdem, id]);
+
+        return true;
+    } catch (error) {
+        console.error('Erro ao atualizar a ordem de apresentação:', error);
+        return false;
+    } finally {
+        await db.close();
+    }
+}

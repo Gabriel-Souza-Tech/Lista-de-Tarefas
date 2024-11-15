@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 
-import {criarEPopularTabelaTarefas, incluirTarefas, buscarTarefasPorId, buscarTarefasPorNome, listarTarefas, editarTarefas, excluirTarefas} from './database.js';
+import {criarEPopularTabelaTarefas, incluirTarefas, buscarTarefasPorId, buscarTarefasPorNome, listarTarefas, editarTarefas, excluirTarefas, atualizarOrdemTarefas} from './database.js';
 
 const app = express();
 app.use(cors());
@@ -103,6 +103,30 @@ app.put('/tarefas/:id', async (req, res) => {
     } catch (error) {
         console.error("Erro ao atualizar tarefa:", error);
         res.status(500).json({ error: "Erro ao atualizar tarefa" });
+    }
+});
+
+//  -  Rota para atualizar a ordem de apresentaçao do drag and drop
+app.put('/tarefas/atualizar-ordem/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { ordem_apresentacao } = req.body;
+
+        // Validação da nova ordem
+        if (!Number.isInteger(ordem_apresentacao) || ordem_apresentacao <= 0) {
+            return res.status(400).json({ error: "A nova ordem deve ser um número inteiro positivo." });
+        }
+
+        const resultado = await atualizarOrdemTarefas(id, ordem_apresentacao);
+
+        if (resultado) {
+            res.status(200).json({ message: "Ordem da tarefa atualizada com sucesso!" });
+        } else {
+            res.status(404).json({ message: "Tarefa não encontrada ou não foi possível atualizar." });
+        }
+    } catch (error) {
+        console.error("Erro ao atualizar ordem_apresentacao:", error);
+        res.status(500).json({ error: "Ocorreu um erro inesperado ao atualizar a tarefa." });
     }
 });
 

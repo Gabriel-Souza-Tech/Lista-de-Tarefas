@@ -167,6 +167,8 @@ document.querySelector('#criarTarefa .modal-footer .btn-primary').addEventListen
 
 /* Oque falta   
 
-    ESTA TENDO MUITO ERROS NO CONSOLE, POREM ESTA FUNCIONANDO, DEVO TESTAR MAIS A FUNDO A APLICAÇAO
+    Cria o drag and drop
+    adicionar iteraçao de mudança de cor quando o custo for >= 1000
+    formatar o front com estilização
     
 */
