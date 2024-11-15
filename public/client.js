@@ -10,6 +10,7 @@ async function listarTarefas() {
             const itemTarefa = document.createElement('li');
             itemTarefa.classList.add('list-group-item');
             itemTarefa.dataset.id = tarefa.id;
+            itemTarefa.dataset.ordem = tarefa.ordem_apresentacao; // Atribui a ordem
 
             function inverterData(data) {
                 const dataInvertida = data.split("-").reverse();
@@ -30,13 +31,15 @@ async function listarTarefas() {
             const trashIcon = itemTarefa.querySelector('.ph-trash');
             trashIcon.addEventListener('click', () => excluirTarefa(tarefa.id));
 
+            // Configurar Drag and Drop
+            configurarDragAndDrop(itemTarefa);
+
             listaTarefas.appendChild(itemTarefa);
         });
     } catch (error) {
         console.error('Erro ao buscar tarefas:', error);
     }
 }
-
 async function adicionarTarefa() {
     const nome = document.getElementById('nome-tarefa').value;
     const custo = document.getElementById('custo-tarefa').value;
@@ -159,6 +162,67 @@ async function editarTarefa(id) {
         };
     } catch (error) {
         console.error('Erro ao buscar dados da tarefa para edição:', error);
+    }
+}
+
+function configurarDragAndDrop(item) {
+    item.draggable = true; // Permite arrastar o item
+    item.addEventListener('dragstart', dragStart); // Quando começa a arrastar
+    item.addEventListener('dragover', dragOver); // Quando arrasta sobre outro elemento
+    item.addEventListener('drop', drop); // Quando solta
+    item.addEventListener('dragend', dragEnd); // Quando termina de arrastar
+}
+
+let dragSrcEl = null; // Elemento sendo arrastado
+
+function dragStart(e) {
+    dragSrcEl = this; // Salva o elemento sendo arrastado
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', this.innerHTML);
+    this.classList.add('dragging');
+}
+
+function dragOver(e) {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    return false;
+}
+
+function drop(e) {
+    e.stopPropagation();
+
+    if (dragSrcEl !== this) {
+        // Troca o HTML dos elementos arrastados
+        const dragSrcOrder = dragSrcEl.dataset.ordem;
+        const dropTargetOrder = this.dataset.ordem;
+
+        dragSrcEl.dataset.ordem = dropTargetOrder;
+        this.dataset.ordem = dragSrcOrder;
+
+        // Atualiza as tarefas visualmente
+        dragSrcEl.innerHTML = this.innerHTML;
+        this.innerHTML = e.dataTransfer.getData('text/html');
+
+        // Atualiza a ordem no banco
+        atualizarOrdemNoBanco(dragSrcEl.dataset.id, dropTargetOrder);
+        atualizarOrdemNoBanco(this.dataset.id, dragSrcOrder);
+    }
+    return false;
+}
+
+function dragEnd() {
+    this.classList.remove('dragging');
+}
+
+async function atualizarOrdemNoBanco(id, novaOrdem) {
+    try {
+        await fetch(`http://localhost:3000/tarefas/atualizar-ordem/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ordem_apresentacao: parseInt(novaOrdem) })
+        });
+    } catch (error) {
+        console.error(`Erro ao atualizar ordem da tarefa ${id}:`, error);
     }
 }
 

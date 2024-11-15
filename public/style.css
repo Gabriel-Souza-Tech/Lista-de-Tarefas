@@ -4,5 +4,9 @@
     font-family: "Roboto", sans-serif;
 }
 
+.list-group-item.dragging {
+    background-color: #d3d3d3;
+    opacity: 0.6;
+}
 
   

@@ -161,21 +161,56 @@ export async function atualizarOrdemTarefas(id, novaOrdem) {
     const db = await open({
         filename: './Tarefas.db',
         driver: sqlite3.Database,
+        busyTimeout: 3000,
     });
 
     try {
-        // Atualiza a ordem da tarefa específica
+        // Inicia uma transação
+        await db.run('BEGIN TRANSACTION');
+
+        // Obtém a ordem atual da tarefa
+        const tarefaAtual = await db.get('SELECT ordem_apresentacao FROM tarefas WHERE id = ?', [id]);
+        if (!tarefaAtual) {
+            throw new Error(`Tarefa com id ${id} não encontrada.`);
+        }
+
+        const ordemAtual = tarefaAtual.ordem_apresentacao;
+
+        // Define um valor temporário para a tarefa a ser movida
+        const ordemTemporaria = -1; // Um valor fora do intervalo válido
+
+        await db.run('UPDATE tarefas SET ordem_apresentacao = ? WHERE id = ?', [ordemTemporaria, id]);
+
+        // Ajusta as ordens das outras tarefas
+        if (novaOrdem > ordemAtual) {
+            // Move para baixo
+            await db.run(
+                'UPDATE tarefas SET ordem_apresentacao = ordem_apresentacao - 1 WHERE ordem_apresentacao > ? AND ordem_apresentacao <= ?',
+                [ordemAtual, novaOrdem]
+            );
+        } else if (novaOrdem < ordemAtual) {
+            // Move para cima
+            await db.run(
+                'UPDATE tarefas SET ordem_apresentacao = ordem_apresentacao + 1 WHERE ordem_apresentacao >= ? AND ordem_apresentacao < ?',
+                [novaOrdem, ordemAtual]
+            );
+        }
+
+        // Define a nova ordem para a tarefa
         await db.run('UPDATE tarefas SET ordem_apresentacao = ? WHERE id = ?', [novaOrdem, id]);
 
-        // Atualiza a ordem das demais tarefas para manter a sequência
-        await db.run('UPDATE tarefas SET ordem_apresentacao = ordem_apresentacao - 1 WHERE ordem_apresentacao > ?', [novaOrdem]);
-        await db.run('UPDATE tarefas SET ordem_apresentacao = ordem_apresentacao + 1 WHERE ordem_apresentacao >= ? AND ordem_apresentacao <= ?', [novaOrdem, id]);
+        // Confirma a transação
+        await db.run('COMMIT');
 
         return true;
     } catch (error) {
         console.error('Erro ao atualizar a ordem de apresentação:', error);
+
+        // Reverte a transação em caso de erro
+        await db.run('ROLLBACK');
         return false;
     } finally {
         await db.close();
     }
 }
+
