@@ -1,6 +1,6 @@
 async function listarTarefas() {
     try {
-        const response = await fetch('https://lista-de-tarefas-j5k3.onrender.com//tarefas');
+        const response = await fetch('https://lista-de-tarefas-j5k3.onrender.com/tarefas');
         const tarefas = await response.json();
 
         const listaTarefas = document.getElementById('lista-tarefas');
@@ -60,7 +60,7 @@ async function adicionarTarefa() {
     const dataLimite = document.getElementById('data-limite').value;
 
     try {
-        const responseValidacao = await fetch('https://lista-de-tarefas-j5k3.onrender.com//tarefas/validar-nome', {
+        const responseValidacao = await fetch('https://lista-de-tarefas-j5k3.onrender.com/tarefas/validar-nome', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ async function adicionarTarefa() {
             throw new Error('Já existe uma tarefa com esse nome.');
         }
 
-        const response = await fetch('https://lista-de-tarefas-j5k3.onrender.com//tarefas', {
+        const response = await fetch('https://lista-de-tarefas-j5k3.onrender.com/tarefas', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -102,7 +102,7 @@ async function excluirTarefa(tarefaId) {
 
     document.getElementById('confirmarExclusao').addEventListener('click', async () => {
         try {
-            const response = await fetch(`https://lista-de-tarefas-j5k3.onrender.com//tarefas/${tarefaId}`, {
+            const response = await fetch(`https://lista-de-tarefas-j5k3.onrender.com/tarefas/${tarefaId}`, {
                 method: 'DELETE'
             });
 
@@ -120,7 +120,7 @@ async function excluirTarefa(tarefaId) {
 
 async function editarTarefa(id) {
     try {
-        const response = await fetch(`https://lista-de-tarefas-j5k3.onrender.com//tarefas/${id}`);
+        const response = await fetch(`https://lista-de-tarefas-j5k3.onrender.com/tarefas/${id}`);
         const tarefa = await response.json();
 
         document.getElementById('edit-nome-tarefa').value = tarefa.nome;
@@ -136,7 +136,7 @@ async function editarTarefa(id) {
             const novaDataLimite = document.getElementById('edit-data-limite').value;
 
             try {
-                const responseValidacao = await fetch('https://lista-de-tarefas-j5k3.onrender.com//tarefas/validar-nome', {
+                const responseValidacao = await fetch('https://lista-de-tarefas-j5k3.onrender.com/tarefas/validar-nome', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -148,7 +148,7 @@ async function editarTarefa(id) {
                     throw new Error('Já existe uma tarefa com esse nome.');
                 }
 
-                const responseAtualizacao = await fetch(`https://lista-de-tarefas-j5k3.onrender.com//tarefas/${id}`, {
+                const responseAtualizacao = await fetch(`https://lista-de-tarefas-j5k3.onrender.com/tarefas/${id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -219,7 +219,7 @@ function dragEnd() {
 
 async function atualizarOrdemNoBanco(id, novaOrdem) {
     try {
-        await fetch(`https://lista-de-tarefas-j5k3.onrender.com//tarefas/atualizar-ordem/${id}`, {
+        await fetch(`https://lista-de-tarefas-j5k3.onrender.com/tarefas/atualizar-ordem/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ ordem_apresentacao: parseInt(novaOrdem) })
