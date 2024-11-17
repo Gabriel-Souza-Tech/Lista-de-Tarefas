@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: "Roboto", sans-serif;
 }
 html, body {
@@ -14,6 +15,7 @@ body#my-body {
     align-items: center;
     justify-content: center;
     background-color: #032f30; 
+    overflow-x: hidden;
 }
 
 .container-custom {
@@ -25,18 +27,21 @@ body#my-body {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     width: 80vh;
+    max-width: 500px;
     height: 80vh; 
     padding: 20px; 
 }
 
 .lista {
-    width: 70vh;
+    width: 100%;
 }
 
 h1 {
     color: #274D60; 
     font-weight: bolder;
     text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
 }
 
 .custom-button {
@@ -119,4 +124,43 @@ h1 {
 .modal-title {
     color: #032f30;
     font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .container-custom {
+        width: 90vw;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .custom-button, 
+    .modal-button, 
+    .close-modal-button {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .custom-button, 
+    .modal-button, 
+    .close-modal-button {
+        width: 100%; /* Botões ocupam toda a largura */
+        margin-bottom: 10px; /* Espaçamento entre os botões */
+    }
+
+    .lista {
+        width: 100%;
+    }
+
+    .custom-list-group-item {
+        font-size: 0.9rem;
+    }
 }
