@@ -3,10 +3,120 @@
     padding: 0;
     font-family: "Roboto", sans-serif;
 }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
 
-.list-group-item.dragging {
-    background-color: #d3d3d3;
-    opacity: 0.6;
+body#my-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #032f30; 
 }
 
-  
+.container-custom {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #d1e4e4; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    width: 80vh;
+    height: 80vh; 
+    padding: 20px; 
+}
+
+.lista {
+    width: 70vh;
+}
+
+h1 {
+    color: #274D60; 
+    font-weight: bolder;
+    text-align: center;
+}
+
+.custom-button {
+    color: #274D60;
+    border-color: #274D60;
+    background-color: #d1e4e4;
+    width: 18vh; 
+    height: 6vh;
+    border-radius: 4px;
+}
+.custom-button:hover {
+    background-color: #0A7075;
+    color: #ffffff;
+}
+
+.modal-button {
+    color: #274D60;
+    border-color: #274D60;
+    background-color: #d1e4e4;
+    width: 22vh; 
+    height: 6vh;
+    border-radius: 4px;
+}
+.modal-button:hover {
+    background-color: #0A7075;
+    color: #ffffff;
+}
+
+.close-modal-button {
+    color: #274D60;
+    border-color: #274D60;
+    background-color: #E4C1AD;
+    width: 18vh; 
+    height: 6vh;
+    border-radius: 4px;
+}
+.close-modal-button:hover {
+    background-color: #E48858;
+    color: #ffffff;
+}
+
+.custom-list-group-item {
+    padding: 0.75rem 1.25rem; 
+    background-color: #d1e4e4;
+    color: #274D60;
+    border: 2px solid #274D60;
+    border-radius: 2px;
+}
+
+.custom-list-group-item.dragging {
+    background-color: #0A7075;
+    opacity: 0.9;
+    color: #ffffff;
+    border: 1px dashed #6BA3B3;
+}
+
+.custom-list-group-item span {
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis; 
+}
+
+.custom-list-group-item:hover {
+    background-color: #0A7075 ;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.modal-content {
+    background-color: #d1e4e4;
+    color: #274D60;
+    border-radius: 8px;
+}
+
+.modal-header, .modal-footer {
+    border-color: #274D60;
+}
+
+.modal-title {
+    color: #032f30;
+    font-weight: 700;
+}

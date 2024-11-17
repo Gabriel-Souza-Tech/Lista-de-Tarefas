@@ -11,10 +11,9 @@ app.use(express.json());
 //  - Rota para listar tarefas(GET)
 app.get('/tarefas', async (req, res) => {
     try {
-        const tarefas = await listarTarefas(); // Chama a função listarTarefas
-
+        const tarefas = await listarTarefas(); 
         if (tarefas) {
-            res.json(tarefas); // Retorna as tarefas ordenadas
+            res.json(tarefas);
         } else {
             res.status(500).send('Erro ao buscar tarefas');
         }
@@ -112,7 +111,6 @@ app.put('/tarefas/atualizar-ordem/:id', async (req, res) => {
         const { id } = req.params;
         const { ordem_apresentacao } = req.body;
 
-        // Validação da nova ordem
         if (!Number.isInteger(ordem_apresentacao) || ordem_apresentacao <= 0) {
             return res.status(400).json({ error: "A nova ordem deve ser um número inteiro positivo." });
         }
@@ -134,7 +132,7 @@ app.put('/tarefas/atualizar-ordem/:id', async (req, res) => {
 app.post('/tarefas/validar-nome', async (req, res) => {
     try {
         const { nome } = req.body;
-        const tarefaExistente = await buscarTarefasPorNome(nome); // Função que busca a tarefa pelo nome
+        const tarefaExistente = await buscarTarefasPorNome(nome); 
 
         if (tarefaExistente) {
             return res.status(400).json({ error: 'Já existe uma tarefa com esse nome.' });
