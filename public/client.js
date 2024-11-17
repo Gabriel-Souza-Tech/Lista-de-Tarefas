@@ -107,7 +107,6 @@ async function excluirTarefa(tarefaId) {
             });
 
             if (response.ok) {
-                alert("Tarefa excluída com sucesso!");
                 listarTarefas();
                 modal.hide();
             } else {
@@ -158,7 +157,6 @@ async function editarTarefa(id) {
                 });
 
                 if (responseAtualizacao.ok) {
-                    alert('Tarefa editada com sucesso!');
                     listarTarefas();
                     editModal.hide();
                 } else {
