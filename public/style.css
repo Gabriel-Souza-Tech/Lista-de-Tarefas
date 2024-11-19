@@ -98,7 +98,7 @@ h1 {
     border: 1px dashed #6BA3B3;
 }
 
-.custom-list-group-item span {
+.custom {
     overflow: hidden; 
     white-space: nowrap; 
     text-overflow: ellipsis; 

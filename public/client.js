@@ -29,8 +29,8 @@ async function listarTarefas() {
 
             itemTarefa.innerHTML = `
                 <div class="d-flex w-100">
-                    <span class="col-4 text-start">${tarefa.nome}</span>
-                    <span class="col-4 text-center">R$ ${tarefa.custo}</span>
+                    <span class="custom col-4 text-start">${tarefa.nome}</span>
+                    <span class="custom col-4 text-center">R$ ${tarefa.custo}</span>
                     <span class="col-4 text-end">
                         ${dataLimiteInvertida}
                         <i class="ph-fill ph-note-pencil ms-2" data-id="${tarefa.id}" style="cursor: pointer;"></i>
